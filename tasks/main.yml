@@ -74,3 +74,16 @@
     group: root
     mode: 0600
   notify: restart gitlab
+
+- name: Open firewalld ports
+  firewalld:
+    service: '{{ item }}'
+    permanent: yes
+    state: enabled
+    immediate: yes
+  when: "'RedHat' in ansible_os_family"
+  with_items:
+    - "http"
+    - "https"
+  notify: restart firewall
+...
